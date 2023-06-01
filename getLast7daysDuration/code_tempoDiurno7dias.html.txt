@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    
+.first-row {
+    background-color: white;
+    color: black;
+    font-size:24px; 
+    font-weight:bold; 
+}
+</style>
+
+<div class="container" style="padding-vertical:9px;">
+    <div class="row">
+        <div class="col">
+            <h3 style="text-align:center;">
+               Tempo Diurno dos últimos 7 dias (em horas)</h1>
+            <div class="d-flex justify-content-between">
+                <table  class="table table-dark" style="color:white; font-size:20px; ">
+                    <thead>
+                        <tr style="text-align:center" id="header-row"> 
+                            <th  ng-repeat="(data, duracao) in msg.payload[0]">{{data}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align:center" ng-repeat="item in msg.payload" ng-class="{'first-row': $index === 0}">
+                            <td  ng-repeat="(data, duracao) in item">{{duracao}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<table  class="table table-dark" style="color:white">
+    <tbody>
+        <tr ng-repeat="(data, duracaoDia) in msg.payload[0]">
+            <td>{{data}}</td>
+            <td ng-repeat="item in msg.payload">{{item[data]}}</td>
+        </tr>
+    </tbody>
+</table>-->

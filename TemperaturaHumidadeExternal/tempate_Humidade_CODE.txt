@@ -1,0 +1,11 @@
+<div class="container" style="padding-vertical:9px;">
+    <div class="row">
+        <div class="col">
+            <div>
+                <h3 style="text-align:center">Humidade(%)</h3>
+            </div>
+
+        </div>
+
+    </div>
+</div>

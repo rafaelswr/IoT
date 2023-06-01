@@ -1,0 +1,9 @@
+from(bucket: "DomoticaIOT")
+  |> range(start: -7d)
+  |> filter(fn: (r) => r["_measurement"] == "Duração do dia de hoje")
+  |> filter(fn: (r) => r["_field"] == "duracaoDia" or r["_field"] == "dataHoje" )
+  |> filter(fn: (r) => r["location"] == "Desk")
+  |> filter(fn: (r) => r["sensorID"] == "1")
+  |> aggregateWindow(every: 24h, fn: last, createEmpty: false)
+  |> yield(name: "last")
+  

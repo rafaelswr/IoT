@@ -1,0 +1,53 @@
+var arrayDatas = [];
+var arrayDuracaoDia = []; 
+var newJson = {};
+var finalArray = [];
+
+var filteredArray = msg.payload.map((obj) => {
+    
+    const { _field, _value } = obj;
+
+    if(_field === "dataHoje"){
+        arrayDatas.push(_value);
+    }else if(_field === "duracaoDia"){
+        arrayDuracaoDia.push(_value); 
+    }
+});
+
+
+for (let i = arrayDatas.length-1; i>=0; i--) {
+    newJson = {
+        data : arrayDatas[i],
+        duracao: arrayDuracaoDia[i],
+    }
+
+    finalArray.push(newJson);
+}
+
+msg.payload = finalArray; 
+
+return msg;
+
+/*
+const handlingDate = (time)=>{
+    var dataHoje = new Date(time);
+    var year = dataHoje.getFullYear();
+    var month = dataHoje.getMonth() + 1;
+    var day = dataHoje.getDate();
+    const data = (day + "-" + month + "-" + year).toString();
+    return data; 
+}
+
+var newJson = {};
+
+var filteredArray = msg.payload.map((obj)=> {
+
+    return {
+        date: handlingDate(obj._time),
+        duracaoDia: obj._value,
+     };
+});
+ 
+msg.payload  = filteredArray; 
+
+return msg; */

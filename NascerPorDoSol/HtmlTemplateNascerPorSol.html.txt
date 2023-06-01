@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<div class="container" style="color:white; background-color:#2596be;">
+    <div class="row">
+        <div class="col">
+        <h1 class="mb-1" style="background-color:#0950ea;font-size:40px;text-align:center;font-weight: bold;padding:30px 15px 25px 15px;">
+            {{msg.payload.week+", "+msg.payload.dataHoje}}</h1>
+            <div class="d-flex justify-content-between" style="padding:30px 15px 30px 15px;">
+                <div>
+                    <h3 >Nascer do Sol</h3>
+                    <p style="font-size:25px;">Hora: {{msg.payload.sunrise}}</p>
+                </div>
+                <div>
+                    <h3 >Pôr do Sol</h3>
+                    <p style="font-size:25px;">Hora: {{msg.payload.sunset}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

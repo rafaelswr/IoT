@@ -1,0 +1,41 @@
+var diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+//valor timestamp para 2023-05-25THH:mm:ss
+var dataHoje = new Date(msg.payload.dt * 1000);
+var sunrise = new Date(msg.payload.sys.sunrise*1000);
+var sunset = new Date(msg.payload.sys.sunset * 1000);
+
+//Data Hoje + dia da semana
+var year = dataHoje.getFullYear();
+var month = dataHoje.getMonth() + 1;
+var day = dataHoje.getDate();
+var weekNumber = dataHoje.getDay();
+var diaDaSemana = diasSemana[weekNumber]; 
+//var hours = dataHoje.getHours();
+//var minutes = dataHoje.getMinutes();
+//var seconds = dataHoje.getSeconds();
+const data = (day + "-" + month + "-" + year).toString(); 
+
+
+//SunRise Hour
+var sunriseHour = sunrise.getHours();
+var sunriseMinutes = sunrise.getMinutes();
+var sunriseSeconds = sunrise.getSeconds();
+
+
+//SunSet Hour
+var sunsetHour = sunset.getHours();
+var sunsetMinutes = sunset.getMinutes();
+var sunsetSeconds = sunset.getSeconds();
+
+const sunriseString = (sunriseHour + ":" + sunriseMinutes);
+const sunsetString = (sunsetHour + ":" + sunsetMinutes);
+
+
+msg.payload = {
+    "week": diaDaSemana,
+    "dataHoje": data,
+    "sunrise":sunriseString,
+    "sunset":sunsetString,
+};
+
+return msg;

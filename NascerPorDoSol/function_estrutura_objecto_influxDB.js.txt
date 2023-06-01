@@ -1,0 +1,42 @@
+var sunriseString = msg.payload.sunrise;
+var sunsetString = msg.payload.sunset;
+var data = msg.payload.dataHoje;
+
+//calcular tempo do dia
+const sunriseParts = sunriseString.split(':');
+const sunriseHour = parseInt(sunriseParts[0]);
+const sunriseMinutes = parseInt(sunriseParts[1]);
+const sunriseDate = new Date();
+sunriseDate.setHours(sunriseHour, sunriseMinutes, 0, 0);
+
+const sunsetPartsSunset = sunsetString.split(':');
+const sunsetHour = parseInt(sunsetPartsSunset[0]);
+const sunsetMinutes = parseInt(sunsetPartsSunset[1]);
+const sunsetDate = new Date();
+sunsetDate.setHours(sunsetHour, sunsetMinutes, 0, 0);
+//console.log(sunsetDate.getHours());
+
+const durationMillis = sunsetDate.getTime() - sunriseDate.getTime();
+const durationHours = Math.floor(durationMillis / (1000 * 60 * 60));
+const durationMinutes = Math.floor((durationMillis % (1000 * 60 * 60)) / (1000 * 60));
+
+
+const duracaoString = durationHours+":"+durationMinutes;
+console.log(duracaoString);
+
+msg.payload = [
+    {
+        measurement: "Duração do dia de hoje",
+        fields: {
+            sunrise: sunriseString,
+            sunset: sunsetString,
+            dataHoje: data,
+            duracaoDia: duracaoString
+        },
+        tags: {
+            sensorID: 1,
+            location: "Desk"
+        }
+    }
+];
+return msg;

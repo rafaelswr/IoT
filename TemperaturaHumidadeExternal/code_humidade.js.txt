@@ -1,0 +1,5 @@
+var hum = msg.payload.humidade;
+global.set("hum_ext", hum);
+msg.payload = hum;
+
+return msg;

@@ -1,0 +1,10 @@
+var temperature = msg.payload.main.temp;
+
+var externalData = {
+    temperatura: temperature, 
+    humidade : msg.payload.main.humidity, 
+}
+
+msg.payload = externalData; 
+
+return msg;
