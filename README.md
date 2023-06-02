@@ -16,7 +16,9 @@ O sistema, simulado no wokwi, permite ter um conjunto de sensores para coletar d
 para o ambiente do Node-red. Uma vez que os dados são recolhidos e enviados, o node-red trata do processamento deles, mostrando em uma dashboard,
 publicando em determinado tópico para os atuadores (simulados no wokwi) receberem instruções.
 
+
 Tecnologias utilizadas:
 Node-Red, InfluxDB, Simulador Wokwi com sensores(dht22,PhotoResistor) e atuadores(servo Motor para janela, LED)
+
 Linguaguens:
 HTML,CSS,JS,C++
