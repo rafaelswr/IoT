@@ -1,0 +1,29 @@
+<div class="container">
+<div class="my-slider-container" style="background-color:#Cecccc;">
+    <h3>Ligar AC </h3>
+    <input type="range" ng-init="msg.payload=1" class="my-slider"  min="0" max="2" step="0.5" ng-model="msg.payload" ng-change="send(msg)">
+    <div class="row">
+        <div class="col" <div>
+        <h1 style="font-size:30px;text-align:center;">
+            Modo: {{(msg.payload == 0 ? 'Arrefecendo' : (msg.payload == 0.5 ? 'Aquecendo' :
+            (msg.payload == 1 ? 'Automático' : (msg.payload == 1.5 ? 'Ventilando' : (msg.payload == 2 ? 'Desligado': 'Automático')))))}}
+        </h1>
+        </div>
+    
+    </div>
+</div>
+</div>
+
+<style>
+    .my-slider-container {
+        background-color: red;
+        /* Substitua a cor desejada aqui */
+        padding:10px;
+        color:black; 
+    }
+
+    .my-slider {
+        background-color: inherit;
+        width:100%;
+    }
+</style>

@@ -1,0 +1,42 @@
+var temp_int = global.get("temp_int");
+var hum_int = global.get("hum_int");
+var lux = global.get("sensor_lux");
+var cortinastr = global.get("cortinastr");
+
+var c_state = {};
+
+c_state.cortina = "baixa";
+c_state.temp_int = temp_int;
+c_state.hum_int = hum_int;
+c_state.lux = lux;
+
+switch(true){
+    case lux<=1000:
+        if (cortinastr == "automatico") {
+            if(temp_int < 15 && hum_int > 20){
+                c_state.cortina = "alta";
+            
+            } else if (temp_int >15 && hum_int > 20){
+                c_state.cortina = "media";
+            
+            } else if (temp_int >= 25 && hum_int < 20) {
+                c_state.cortina = "baixa";
+            }
+        }else{
+            c_state.cortina = cortinastr; 
+        }
+        break; 
+    case (lux>=1000 &&lux<=10000):
+        if (cortinastr == "automatico") {
+            if(temp_int >=15 && hum_int<20)
+                c_state.cortina = "media";
+        }else{
+            c_state.cortina = cortinastr; 
+        }
+        break; 
+}
+
+global.set("cortina", c_state.cortina);
+msg.payload = c_state;
+
+return msg;

@@ -1,0 +1,16 @@
+var num = msg.payload;
+
+if (num == 0) {
+    global.set("manualACstr", "arrefecendo");
+}else if (num == 0.5) {
+    global.set("manualACstr", "aquecendo");
+}else if(num==1){
+    global.set("manualACstr", "automatico");
+}else if (num == 1.5) {
+    global.set("manualACstr", "ventilando");
+}else if (num == 2) {
+    global.set("manualACstr", "desligado");
+}
+
+msg.payload = global.get("manualACstr");
+return msg; 

@@ -1,0 +1,178 @@
+#include <WiFi.h>
+#include <PubSubClient.h>
+#include <ArduinoJson.h>
+#include "DHTesp.h"
+#include <ESP32Servo.h>
+#define LED 2
+
+const int servoPin = 18;
+
+Servo servo;
+
+//wifi credentials
+const char* ssid = "Wokwi-GUEST";
+const char* password = "";
+
+//messages definitions
+long lastMsg = 0;
+char msg[50];
+int value = 0;
+
+
+
+// MQTT client
+WiFiClient wifiClient;
+PubSubClient client(wifiClient); 
+
+//LDR PhotoResistor
+const int pinSensor = A0;
+const float GAMMA = 0.7;
+const float RL10 = 50;
+
+//DHT
+const int DHT_PIN = 15;
+DHTesp dhtSensor;
+
+//broker variables
+const char* mqtt_server = "broker.hivemq.com";
+int mqttPort = 1883;
+
+const int potPin = 34;
+float potValue = 0; 
+
+void connectWiFi(){
+  Serial.print("Connectiog to ");
+ 
+  WiFi.begin(ssid, password,6);
+  Serial.println(ssid);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(100);
+    Serial.println("Wifi connecting...");
+  }
+  Serial.print("Wifi connected, IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void brokerReconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("a39041")) {
+      Serial.println("connected");
+      client.subscribe("IoT/Room/Domotica");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+
+void callback(String topic, byte* payload, unsigned int length) {
+  
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  String strPayload="";
+  for (int i=0;i<length;i++) {
+    //byte to char 
+    strPayload = strPayload + (char)payload[i];  
+  }
+  
+  StaticJsonBuffer<200> jsonBuffer;
+  JsonObject& data = jsonBuffer.parseObject(strPayload);
+
+  if(topic == "IoT/Room/Domotica" ){
+    if(data["window"] == "fechada"){
+      //digitalWrite(LED_BUILTIN, LOW); //Turn off the LED 
+      //Serial.println("OFF");
+      servo.write(0);
+      delay(15);
+      Serial.println("Janela Fechada");
+    }else if(data["window"] == "semi-aberta"){
+      //digitalWrite(LED_BUILTIN, HIGH); //Turn on the LED 
+      //Serial.println("ON");
+       servo.write(90);
+      delay(15);
+      Serial.println("Janela Semi-aberta");
+    } else if(data["window"] == "aberta"){
+       servo.write(180);
+      delay(15);
+      Serial.println("Janela Aberta");
+    }else if(data["led_state"] == "ON"){
+      digitalWrite(LED, HIGH); //Turn off the LED 
+      delay(500);
+    }else if (data["led_state"] == "OFF"){
+      digitalWrite(LED, LOW); //Turn off the LED 
+      delay(500);
+    }
+  }
+  Serial.println();
+
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(pinSensor, INPUT);
+  dhtSensor.setup(DHT_PIN, DHTesp::DHT22);
+  servo.attach(servoPin, 500, 2400);
+  connectWiFi();
+  client.setServer(mqtt_server, mqttPort);
+  // set the callback function
+  client.setCallback(callback);
+  
+}
+
+void loop() {
+ if (!client.connected()) {
+    brokerReconnect();
+  }
+  client.loop();
+
+  long now = millis();
+  if (now - lastMsg > 2500) {
+    lastMsg = now;
+  
+
+    TempAndHumidity  data = dhtSensor.getTempAndHumidity();
+
+    delay(10); // this speeds up the simulation
+    int ldrValue = analogRead(pinSensor); // Read the analog value of the LDR
+    ldrValue = map(ldrValue, 4095, 0, 1024, 0);
+    double voltage = ldrValue / 1024.* 5; 
+    double resistance = 2000 * voltage / (1 - voltage / 5);
+    double lux = pow(RL10 * 1e3 * pow(10, GAMMA) / resistance, (1 / GAMMA));
+
+    // Criar um objeto JsonBuffer
+    StaticJsonBuffer<128> jsonBuffer;
+
+    // Criar um objeto JsonObject
+    JsonObject& jsonObject = jsonBuffer.createObject();
+
+    // Adicionar o valor do sensor LDR ao objeto JsonObject
+    jsonObject["ldr_lux"] = lux;
+    jsonObject["temperature"] = data.temperature; 
+    jsonObject["humidity"] = (int)data.humidity; 
+
+    // Converter o objeto JsonObject em uma string
+    String jsonString;
+    jsonObject.printTo(jsonString);
+
+    Serial.print("Internal Data: ");
+    Serial.println(jsonString);
+
+    // Publicar a string JSON
+    client.publish("Desk/LDR", jsonString.c_str());
+
+    delay(500);
+
+
+  }
+  //publisher in the dashboard the value of potentimeter
+
+}

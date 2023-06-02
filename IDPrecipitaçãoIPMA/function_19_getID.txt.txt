@@ -1,0 +1,8 @@
+var id_prec = Number(msg.payload.data[0].classPrecInt);
+global.set("id_precipitacao", id_prec );
+msg.payload = id_prec; 
+
+return msg; 
+
+
+

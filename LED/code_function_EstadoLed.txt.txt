@@ -1,0 +1,7 @@
+var json = {};
+
+json.led_state = msg.payload; 
+msg.payload =json; 
+
+
+return msg;

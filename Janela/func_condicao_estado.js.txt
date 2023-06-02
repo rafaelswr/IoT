@@ -1,0 +1,63 @@
+var co2 = global.get("co2");
+var idPrec = global.get("id_precipitacao");
+var temp_ext = global.get("temp_ext");
+var hum_ext = global.get("hum_ext");
+var manual_window = global.get("Windowstr");
+
+const window_state = {};
+
+window_state.window = "fechado";
+window_state.co2 = co2;
+window_state.temp_ext = temp_ext;
+window_state.hum_ext = hum_ext;
+window_state.id_prec = idPrec; 
+
+switch(idPrec){
+    //aberta
+    case 0:
+        if (manual_window == "automatico") {
+            if(co2>=1800 && temp_ext>20 && hum_ext<=60){
+                window_state.window = "aberta";
+                
+            } else if ((co2>=1200 && co2<=1800) && ( temp_ext>13 &&temp_ext < 21) && hum_ext <=20){
+                window_state.window = "semi-aberta";
+            
+            } else if ((co2 >= 1200 && co2 <= 1800) && (temp_ext < 13) && hum_ext >= 40){
+                window_state.window = "fechada"; 
+            }
+        }else{
+            window_state.window = manual_window; 
+        }
+        break; 
+    case 1:
+        if (manual_window == "automatico") {
+            if ((co2>=1200 && co2<=1800) && temp_ext > 15 && hum_ext <= 40) {
+                window_state.window = "semi-aberta";
+            
+            } else if (co2 < 1200 && temp_ext < 13 && hum_ext >= 70) {
+                window_state.window = "fechada";
+        
+            }
+        }else{
+            window_state.window= manual_window; 
+        }
+        break; 
+    case 2:
+        if (manual_window != "automatico") {
+            window_state.window = manual_window;
+        } else {
+            window_state.window = "fechada";
+        }
+        break;
+    case 3:
+        if (manual_window != "automatico") {
+            window_state.window = manual_window;
+        }else{
+                window_state.window = "fechada";   
+        }
+        break;
+}
+
+global.set("window",window_state.window);
+msg.payload = window_state;
+return msg;

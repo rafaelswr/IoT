@@ -1,0 +1,20 @@
+<div class="container" style="padding: 25px 30px 25px 30px;color:black;background-color:#Cecccc;">
+    <div class="row">
+        <div class="col">
+            <h5 class="card-title" style="font-weight:bold;padding:25px 10px; font-size:40px;">Cortina
+            <span class="badge badge-success">{{msg.payload.cortina}}</span>
+            </h5>
+            <ul class="list-group" style="padding:0;margin:0;font-size:25px">
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px;padding:3px;">
+                    <b>Temperatura interna: </b>{{ msg.payload.temp_int}}{{'ºC'}}
+                </li>
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px;padding:3px;">
+                    <b>Humidade interna: </b>{{ msg.payload.hum_int}}{{'%'}}
+                </li>
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px;padding:3px;">
+                    <b>Sensor Luz interno: </b>{{ msg.payload.lux}}{{'lux'}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

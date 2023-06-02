@@ -1,0 +1,3 @@
+https://api.ipma.pt/open-data/forecast/meteorology/cities/daily/1040200.json
+
+1040200, id de bragança

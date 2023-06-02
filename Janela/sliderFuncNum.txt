@@ -1,0 +1,15 @@
+
+var num = msg.payload;
+
+if (num == 0) {
+    global.set("Windowstr", "fechada");
+}else if (num == 0.5) {
+    global.set("Windowstr", "semi-aberta");
+}else if(num==1){
+    global.set("Windowstr", "automatico");
+}else if (num == 1.5) {
+    global.set("Windowstr", "aberta");
+}
+
+msg.payload = global.get("Windowstr");
+return msg; 

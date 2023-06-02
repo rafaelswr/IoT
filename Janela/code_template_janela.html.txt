@@ -1,0 +1,35 @@
+<!--<div class="container" style="color:black; padding: 25px 30px 25px 30px;background-color:#Cecccc;">
+    <div class="row">
+        <div class="col">
+            <div>
+            <h3 style="text-align:center; padding:15px;">Janela</h3>
+            </div>
+            <p style="text-align:center;font-weight:bold;padding-top:25px; font-size:30px;">
+                {{msg.payload.window}}
+            </p>
+            <div>
+                <p ng-style="{'color':(msg.payload >= 800 && msg.payload <= 1200)?'black':'white'}"
+                    style="text-align:center;font-weight:bold;padding-top:25px; font-size:30px;">
+                    {{msg.payload.co2}}</p>
+            </div>
+        </div>
+
+        
+    </div>
+</div>-->
+
+<div class="container" style="padding: 25px 30px 25px 30px;color:black;background-color:#Cecccc;">
+    <div class="row">
+        <div class="col">
+            <h5 class="card-title" style="font-weight:bold;padding:20px 10px; font-size:40px;">Janela     <span class="badge badge-warning">{{msg.payload.window}}</span></h5>
+            <ul class="list-group" style="padding:0;margin:0;font-size:25px">
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px; padding:3px;"><b>Nível Co2: </b>{{ msg.payload.co2}}{{'ppm'}}</li>
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px;padding:3px;"><b>Temperatura externa: </b>{{ msg.payload.temp_ext}}{{'ºC'}}</li>
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px;padding:3px;"><b>Humidade externa: </b>{{ msg.payload.hum_ext}}{{'%'}}</li>
+                <li class="list-group-item" style="padding:0;margin:0;font-size:25px;padding:3px;"><b>ID precipitação: </b>{{ msg.payload.id_prec}}{{' (' + (msg.payload.id_prec==0 ? 'Sem precipitação' : (msg.payload.id_prec==1 ? 'Fraca' :
+                    (msg.payload.id_prec==2 ? 'Moderada' : (msg.payload.id_prec==3 ? 'Forte' : 'undefined')))) + ')'}}</li>      </ul>
+        </div>
+    </div>
+</div>
+
+

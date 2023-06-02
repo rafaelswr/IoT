@@ -1,0 +1,54 @@
+var co2 = global.get("co2");
+var temp_int = global.get("temp_int");
+var hum_int = global.get("hum_int");
+var windowsState = global.get("window");
+var manualAC = global.get("manualACstr");
+var aC_state = {};
+
+// Definir valores padrão para o objeto aC_state
+aC_state.ac = "desligado";
+aC_state.co2 = co2;
+aC_state.temp_int = temp_int;
+aC_state.hum_int = hum_int;
+aC_state.window = windowsState;
+
+switch (windowsState) {
+    // aberta
+    case "aberta":
+        if (manualAC == "automatico") {
+            if (co2 <= 1800 && temp_int > 15 && hum_int <= 20) {
+                aC_state.ac = "desligado";
+            }
+        } else {
+            aC_state.ac = manualAC;
+        }
+        break;
+    case "fechada":
+        if (manualAC == "automatico") {
+            if (co2 >= 1200 && temp_int > 12 && hum_int >= 40) {
+                aC_state.ac = "ventilando";
+            } else if (co2 < 1200 && temp_int < 10 && hum_int <= 60) {
+                aC_state.ac = "aquecendo";
+            } else if (co2 < 1200 && temp_int > 20 && hum_int <= 20) {
+                aC_state.ac = "arrefecendo";
+            }
+        } else {
+            aC_state.ac = manualAC;
+        }
+        break;
+    case "semi-aberta":
+        if (manualAC == "automatico") {
+            if (co2 >= 1200 && temp_int > 15 && hum_int >= 40) {
+                aC_state.ac = "ventilando";
+            } else {
+                aC_state.ac = "desligado";
+            }
+        } else {
+            aC_state.ac = manualAC;
+        }
+        break;
+}
+
+global.set("ac", aC_state.ac);
+msg.payload = aC_state;
+return msg;
