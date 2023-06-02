@@ -18,7 +18,7 @@ publicando em determinado tópico para os atuadores (simulados no wokwi) receber
 
 
 Tecnologias utilizadas:
-Node-Red, InfluxDB, Simulador Wokwi com sensores(dht22,PhotoResistor) e atuadores(servo Motor para janela, LED)
+Microntroladore ESP32, Node-Red, InfluxDB, Simulador Wokwi com sensores(dht22,PhotoResistor) e atuadores(servo Motor para janela, LED)
 
 Linguaguens:
 HTML,CSS,JS,C++
