@@ -1,0 +1,8 @@
+global.set("temp_int", msg.payload.temperature);
+global.set("hum_int", msg.payload.humidity);
+global.set("sensor_lux", msg.payload.ldr_lux);
+
+if (global.get("co2")){
+    msg.payload.co2 = global.get("co2");
+    return msg;
+}

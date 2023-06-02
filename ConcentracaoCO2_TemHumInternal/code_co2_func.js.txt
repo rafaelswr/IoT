@@ -1,0 +1,3 @@
+var co2_ppm = msg.payload.co2; 
+msg.payload = co2_ppm; 
+return msg;

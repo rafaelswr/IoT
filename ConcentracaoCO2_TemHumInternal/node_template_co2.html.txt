@@ -1,0 +1,34 @@
+<script>
+function getColor(val) {
+console.log(val);
+    var value = val; 
+    if (value < 800){
+        return 'green;
+    } else if (value>= 800 && value <= 1200){
+        return 'yellow';
+    } else if (value> 1200 && value < 1800){
+        return 'orange';
+    } else{
+        return 'red';
+    }
+}
+
+</script>
+
+<!-- getColor(ng-bind-html="msg.payload") -->
+<div class="container"  ng-style="{'background-color':  (msg.payload < 800) ? 'green' : (msg.payload >= 800 && msg.payload <= 1200) ? 'yellow' : (msg.payload > 1200 && msg.payload < 1800) ? 'orange' : 'red'}" style="padding: 25px 30px 25px 30px;">
+    <div class="row">
+        <div class="col">
+            <div>
+                <h3 ng-style="{'color':(msg.payload >= 800 && msg.payload <= 1200)?'black':'white'}" style="text-align:center; padding:15px;">Concentração de CO2</h3>
+            </div>
+            <p ng-style="{'color':(msg.payload >= 800 && msg.payload <= 1200)?'black':'white'}" style="text-align:center;font-weight:bold;padding-top:25px; font-size:30px;">{{(msg.payload < 800) ? 'Fraca' :
+                                (msg.payload>= 800 && msg.payload <= 1200) ? 'Regular' : (msg.payload> 1200 && msg.payload < 1800) ? 'Ruim'
+                                        : 'Muito Ruim'}}</p>
+            <p ng-style="{'color':(msg.payload >= 800 && msg.payload <= 1200)?'black':'white'}"
+                style="text-align:center;font-weight:bold;padding-top:25px; font-size:30px;">{{msg.payload + ' ppm'}}</p>
+            
+        </div>
+    </div>
+</div>
+

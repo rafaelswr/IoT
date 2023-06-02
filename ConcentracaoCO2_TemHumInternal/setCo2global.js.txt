@@ -1,0 +1,5 @@
+const co2 = msg.payload.co2_eqv;
+
+global.set("co2", co2);
+
+return msg;

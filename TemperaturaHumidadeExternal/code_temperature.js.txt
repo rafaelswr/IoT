@@ -1,0 +1,5 @@
+var temp = msg.payload.temperatura;
+global.set("temp_ext", temp);
+msg.payload = temp; 
+
+return msg;

@@ -1,0 +1,3 @@
+var temp = msg.payload.temperature;
+msg.payload = temp; 
+return msg;
